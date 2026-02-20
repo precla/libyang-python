@@ -1568,7 +1568,11 @@ class SLeaf(SNode):
         return c2str(self.cdata_leaf.units)
 
     def type(self) -> Type:
-        return Type(self.context, self.cdata_leaf.type, self.cdata_leaf_parsed.type)
+        return Type(
+            self.context,
+            self.cdata_leaf.type,
+            self.cdata_leaf_parsed.type if self.cdata_leaf_parsed else None,
+        )
 
     def is_key(self) -> bool:
         if self.cdata_leaf.flags & lib.LYS_KEY:
@@ -1600,7 +1604,9 @@ class SLeafList(SNode):
 
     def type(self) -> Type:
         return Type(
-            self.context, self.cdata_leaflist.type, self.cdata_leaflist_parsed.type
+            self.context,
+            self.cdata_leaflist.type,
+            self.cdata_leaflist_parsed.type if self.cdata_leaflist_parsed else None,
         )
 
     def defaults(self) -> Iterator[Union[None, bool, int, str, float]]:
